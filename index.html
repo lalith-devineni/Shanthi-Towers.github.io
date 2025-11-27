@@ -1,1 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Updated Title for Shanthi Towers -->
+    <title>Shanthi Towers | Bodhan Local Contact Directory</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Use Inter font -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f7f6;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
 
+    <div class="max-w-4xl mx-auto">
+        <header class="text-center mb-10 p-6 bg-white rounded-xl shadow-lg">
+            <!-- Image Placeholder simulating a building/tower icon -->
+            <img 
+                src="https://placehold.co/100x100/3730A3/FFFFFF?text=Tower" 
+                alt="Shanthi Towers Icon" 
+                class="mx-auto mb-4 rounded-full border-4 border-indigo-200"
+                onerror="this.onerror=null;this.src='https://placehold.co/100x100/3730A3/FFFFFF?text=ST'"
+            >
+            <!-- Updated Heading with location details -->
+            <h1 class="text-4xl font-extrabold text-indigo-700 mb-1">Shanthi Towers Directory</h1>
+            <p class="text-gray-600 text-lg font-medium mb-3">Bodhan, Telangana</p>
+            <p class="text-gray-500 text-md">Tap any number below for immediate, effortless calling to essential local services and contacts.</p>
+        </header>
+
+        <main id="contacts-container" class="grid grid-cols-1 gap-6"></main>
+    </div>
+
+    <script>
+        // --- Contact Data Structure ---
+        // Storing the contacts in a JavaScript object for dynamic rendering.
+        // The order has been updated to place "Executive Commitee" last.
+        const contacts = {
+            "Emergency": [
+                { name: "Ambulance", number: "108" },
+                { name: "Fire", number: "101" },
+                { name: "Police", number: "100" },
+                { name: "Health", number: "104" }
+            ],
+            "Blood Bank": [
+                { name: "Red Cross", number: "08462222002" },
+                { name: "Nzb Blood Bank", number: "8367222108" },
+                { name: "Aayush", number: "9441089297" }
+            ],
+            "Electricity Department": [
+                { name: "AAE", number: "8712485392" },
+                { name: "Sub Engineer", number: "8712485486" },
+                { name: "Line Inspector", number: "8712485384" },
+                { name: "Line Man", number: "8639192473" }
+            ],
+            "Electricians": [
+                { name: "Muzamil", number: "9398006185" },
+                { name: "Nagaraju", number: "9673635700" },
+                { name: "Afroz", number: "7306777022" },
+                { name: "Yasin", number: "9704746690" },
+                { name: "Ramu Rudrur", number: "9949266276" },
+                { name: "Santosh", number: "9705058013" },
+                { name: "Jeevan Electcls", number: "9440757896" }
+            ],
+            "Plumbers": [
+                { name: "Akhil", number: "9676163806" },
+                { name: "Sameer", number: "8187853873" },
+                { name: "Kaleem", number: "7013144502" }
+            ],
+            "AC Mechanics": [
+                { name: "Abhilash", number: "9700065662" }
+            ],
+            "Painters": [
+                { name: "Ameer", number: "9701786239" },
+                { name: "Baba", number: "8328544469" },
+                { name: "Prince Store", number: "9849221811" }
+            ],
+            "Bathroom Cleaners": [
+                { name: "Rajaiah", number: "9133754792" },
+                { name: "Mohan (Labour)", number: "9912190270" }
+            ],
+            "Mason (Tiles)": [
+                { name: "Bhaskar", number: "9618935751" }
+            ],
+            "Drivers": [
+                { name: "Shiva", number: "7386548776" },
+                { name: "Srikanth", number: "9398707850" },
+                { name: "Yunus", number: "9391717007" },
+                { name: "Raju (Kotgir)", number: "9581796828" }
+            ],
+            "Catering/Cooking": [
+                { name: "Giri (Minarpally)", number: "9989196727" },
+                { name: "Laxmi (Veg)", number: "9908672431" },
+                { name: "Khan (Cook)", number: "9908932193" },
+                { name: "Afroz Khan", number: "9912593888" },
+                { name: "Venkata Sai Mess", number: "9490815310" }
+            ],
+            "Executive Commitee": [
+                { name: "Narayana (President)", number: "9949090459" },
+                { name: "Bharath Kumar (Secretary)", number: "9393040749" },
+                { name: "Ratan Prasad (Treasurer)", number: "9494959840" },
+                { name: "Sai Srinivas (Vice President)", number: "9177782233" },
+                { name: "Nagabhushanam (Asst. Secretary)", number: "9908605685" }
+            ]
+        };
+
+        // --- Core Functionality: Click-to-Call ---
+        /**
+         * Initiates a phone call using the 'tel:' URI scheme.
+         * @param {string} rawNumber - The phone number string.
+         */
+        function callNumber(rawNumber) {
+            // Remove all non-digit characters to ensure the tel: URI is clean
+            const cleanNumber = rawNumber.replace(/\D/g, '');
+            if (cleanNumber) {
+                // The 'tel:' protocol opens the phone dialer on mobile devices.
+                window.location.href = `tel:${cleanNumber}`;
+            } else {
+                console.error("Invalid number provided for calling.");
+            }
+        }
+
+        // --- Rendering Logic ---
+        /**
+         * Renders all contact categories and their contacts dynamically.
+         */
+        function renderContacts() {
+            const container = document.getElementById('contacts-container');
+            let html = '';
+
+            for (const category in contacts) {
+                if (contacts.hasOwnProperty(category)) {
+                    const contactsList = contacts[category];
+
+                    // Start of the category card
+                    html += `
+                        <section class="bg-white shadow-xl rounded-xl p-5 border-t-4 border-indigo-500 transition duration-300 hover:shadow-2xl">
+                            <h2 class="text-2xl font-bold text-indigo-700 mb-4 pb-2 border-b-2 border-indigo-100">${category}</h2>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    `;
+
+                    // Loop through contacts in the category
+                    contactsList.forEach(contact => {
+                        // The entire card acts as the clickable element
+                        html += `
+                            <a href="javascript:void(0)" onclick="callNumber('${contact.number}')" class="group block p-4 bg-gray-50 hover:bg-indigo-50 rounded-lg transition duration-200 border border-gray-200 shadow-md">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-lg font-semibold text-gray-800 group-hover:text-indigo-800">${contact.name}</p>
+                                        <p class="text-sm text-gray-500">${contact.number}</p>
+                                    </div>
+                                    <!-- Call Icon -->
+                                    <svg class="w-6 h-6 text-indigo-500 group-hover:text-indigo-600 transform group-hover:scale-110 transition duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                                    </svg>
+                                </div>
+                            </a>
+                        `;
+                    });
+
+                    // End of the category card
+                    html += `
+                            </div>
+                        </section>
+                    `;
+                }
+            }
+
+            container.innerHTML = html;
+        }
+
+        // Attach the global function to the window object so it can be called from onclick
+        window.callNumber = callNumber;
+
+        // Run the rendering function when the page loads
+        document.addEventListener('DOMContentLoaded', renderContacts);
+    </script>
+</body>
+</html>
